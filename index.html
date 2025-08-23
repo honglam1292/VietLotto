@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required Meta Tags -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Title and Description -->
+  <title>Exchange System</title>
+  <meta name="description" content="Live casino, Live sports, Live cricket, Betfair trusted site" />
+
+  <!-- Robots Meta Tag -->
+  <meta name="robots" content="index, follow" />
+
+  <!-- Keywords (Optional, less relevant nowadays) -->
+  <meta name="keywords" content="ExchangeSystem, ExchangeSystem live, ExchangeSystem casino" />
+
+  <!-- Open Graph Meta Tags for Social Media -->
+  <meta property="og:title" content="ExchangeSystem" />
+  <meta property="og:description" content="Live casino, Live sports, Live cricket, Betfair trusted site" />
+  <meta property="og:image" content="/images/member-logo.png?v=1" />
+  <meta property="og:url" content="https://ExchangeSystem.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ExchangeSystem" />
+
+  <!-- Meta Tags -->
+  <link rel="apple-touch-icon" href="/images/member-logo.png?v=1" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/images/member-logo.png?v=1" />
+
+  <!-- Fontawesome 5 pro -->
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+  <script>
+    const redirect = sessionStorage.redirect;
+    if (redirect) {
+      sessionStorage.removeItem('redirect');
+      history.replaceState(null, '', redirect);
+    }
+  </script>
+</body>
+
+</html>
