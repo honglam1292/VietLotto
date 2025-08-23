@@ -16,7 +16,6 @@ export default defineConfig({
     }),
     tailwindcss(),
   ],
-  base: '/VietLotto/',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
