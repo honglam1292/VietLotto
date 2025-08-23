@@ -141,7 +141,7 @@ const SectionRow: React.FC<{
       <div className={labelPill} style={{ whiteSpace: "pre-line" }}>
         {row.label}
       </div>
-      <div className="flex flex-wrap gap-3 justify-center items-center">
+      <div className={`flex flex-wrap gap-3 ${window.innerWidth < 768 ? "justify-center items-center" : ""}`}>
         {row.chips.map((c) => (
           <Chip
             key={c.id}
