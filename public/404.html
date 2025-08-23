@@ -1,5 +1,6 @@
 <!doctype html><html><head><meta charset="utf-8"><script>
-  const segment = location.pathname.replace('/VietLotto','');
-  sessionStorage.redirect = segment || '/';
-  location.replace('/VietLotto/');
+  const base = '/VietLotto';
+  const seg = location.pathname.startsWith(base) ? location.pathname.slice(base.length) : '/';
+  sessionStorage.redirect = seg || '/';
+  location.replace(base + '/');
 </script></head><body></body></html>
