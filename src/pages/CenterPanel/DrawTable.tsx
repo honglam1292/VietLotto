@@ -295,18 +295,18 @@ export default function DrawTable() {
 
   // Đánh dấu nhóm đã render ô label
   const renderedBase = new Set<string>();
-
+  const bgWhite = ['G.2', 'G.4', 'G.6', 'G.8', 'G.ĐB'];
   return (
     <div className="w-full flex justify-center overflow-x-auto">
       <div className="w-full md:!w-[600px]">
         <table className="w-full border-collapse text-black">
           <thead>
             <tr className="bg-gradient-to-b from-gray-100 to-gray-200">
-              <th className="w-[90px] text-left font-bold px-4 py-2 border border-gray-300">
+              <th className="w-[90px] text-center font-bold px-4 py-2 border border-gray-300">
                 Giải
               </th>
               <th className="text-left font-bold px-4 py-2 border border-gray-300"></th>
-              <th className="w-[72px] text-left font-bold px-1 md:!px-4 py-0 border border-gray-300">
+              <th className="w-[72px] text-center font-bold px-1 md:!px-4 py-0 border border-gray-300">
                 <Checkbox
                   checked={!!Object.keys(checkedRows).filter(key => checkedRows[key]).length}
                   onChange={handleCheckAll}
@@ -323,7 +323,7 @@ export default function DrawTable() {
           </thead>
 
           <tbody>
-            {ROWS.map((r, idx) => {
+            {ROWS.map((r) => {
               const dark = isDarkRow(r.gray);
               const isRowChecked = checkedRows[r.label] && !dark ? true : false;
 
@@ -335,7 +335,7 @@ export default function DrawTable() {
               return (
                 <tr
                   key={r.label}
-                  className={idx % 2 === 1 ? "bg-white" : "bg-[#f7f9fc]"}
+                  className={bgWhite.filter(bg => r.label.includes(bg)).length > 0 ? "bg-white" : "bg-[#f7f9fc]"}
                 >
                   {/* Ô "Giải" gộp theo rowSpan */}
                   {shouldRenderLabelCell && (
