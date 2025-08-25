@@ -10,7 +10,7 @@ const DefaultLayout = () => {
   const ctx = useContext(LottoContext);
   const selectedCount = ctx?.numOfSelectBet || 0;
   const betValue = ctx?.betValue || [];
-  const isDisplayMobileFooter = selectedCount > 0 && betValue.filter(x => x === undefined)?.length === 0;
+  const isDisplayMobileFooter = window.innerWidth > 768 || (selectedCount > 0 && betValue.filter(x => x === undefined)?.length === 0);
 
   return (
     <React.Fragment>
