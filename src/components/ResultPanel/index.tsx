@@ -67,10 +67,10 @@ export default function ResultPanel() {
   const mockRs = useMemo(() => {
     return isMB ? {
       // "G.8": [randomNumber(2)],
-      "G.7": [randomNumber(3), randomNumber(3), randomNumber(3), randomNumber(3)],
-      "G.6": [randomNumber(4), randomNumber(4), randomNumber(4),],
+      "G.7": [randomNumber(2), randomNumber(2), randomNumber(2), randomNumber(2)],
+      "G.6": [randomNumber(3), randomNumber(3), randomNumber(3),],
       "G.5": [randomNumber(4), randomNumber(4), randomNumber(4), randomNumber(4), randomNumber(4), randomNumber(4)],
-      "G.4": [randomNumber(5), randomNumber(5), randomNumber(5), randomNumber(5),],
+      "G.4": [randomNumber(4), randomNumber(4), randomNumber(4), randomNumber(4),],
       "G.3": [randomNumber(5), randomNumber(5), randomNumber(5), randomNumber(5), randomNumber(5), randomNumber(5)],
       "G.2": [randomNumber(5), randomNumber(5)],
       "G.1": [randomNumber(5)],

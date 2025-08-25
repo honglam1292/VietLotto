@@ -28,7 +28,6 @@ const LeftPanel = () => {
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
-  const isMB = ctx?.selectCountry === "Miền Bắc";
 
   useEffect(() => {
     handleClose();
@@ -141,7 +140,7 @@ const LeftPanel = () => {
               onClose={handleClose}
               slotProps={{ list: { "aria-labelledby": "basic-button" } }}
             >
-              {isMB ? null : <MenuItem onClick={() => ctx.setDigit(2)}>Last 2 digits</MenuItem>}
+              <MenuItem onClick={() => ctx.setDigit(2)}>Last 2 digits</MenuItem>
               <MenuItem onClick={() => ctx.setDigit(3)}>Last 3 digits</MenuItem>
               <MenuItem onClick={() => ctx.setDigit(4)}>Last 4 digits</MenuItem>
             </Menu>

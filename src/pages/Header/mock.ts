@@ -9,7 +9,7 @@ export const schedule: Record<number, [RegionResult, RegionResult, RegionResult]
   1: [
     { id: "1", time: "19:15", name: ["Xổ Số Miền Bắc"] },
     { id: "2", time: "17:15", name: ["Xổ Số Thừa T. Huế", "Xổ Số Phú Yên"] },
-    { id: "3", time: "16:15", name: ["Xổ Số Sài Gòn", "Xổ Số Đồng Tháp", "Xổ Số Cà Mau"] },
+    { id: "3", time: "16:15", name: ["Xổ Số Hồ Chí Minh", "Xổ Số Đồng Tháp", "Xổ Số Cà Mau"] },
   ],
   2: [
     { id: "4", time: "19:15", name: ["Xổ Số Miền Bắc"] },
@@ -34,7 +34,7 @@ export const schedule: Record<number, [RegionResult, RegionResult, RegionResult]
   6: [
     { id: "15", time: "19:15", name: ["Xổ Số Miền Bắc"] },
     { id: "16", time: "17:15", name: ["Xổ Số Đà Nẵng", "Xổ Số Quảng Ngãi", "Xổ Số Đắk Nông"] },
-    { id: "17", time: "16:15", name: ["Xổ Số Sài Gòn", "Xổ Số Long An", "Xổ Số Hậu Giang", "Xổ Số Bình Phước"] },
+    { id: "17", time: "16:15", name: ["Xổ Số Hồ Chí Minh", "Xổ Số Long An", "Xổ Số Hậu Giang", "Xổ Số Bình Phước"] },
   ],
   0: [
     { id: "18", time: "19:15", name: ["Xổ Số Miền Bắc"] },

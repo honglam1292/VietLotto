@@ -31,7 +31,7 @@ export default function Footer() {
 
   return (
     <div
-      className="w-full h-full px-4 py-3 flex flex-col md:!flex-row items-center gap-4 rounded-md"
+      className="w-full h-full px-4 py-3 flex flex-col md:!flex-row items-center gap-2 md:!gap-4 rounded-md"
       style={{
         background:
           "repeating-linear-gradient(0deg, #e9e1d3, #e9e1d3 10px, #e6dece 10px, #e6dece 20px)",
@@ -39,9 +39,9 @@ export default function Footer() {
       }}
     >
       {/* Odds + Amount */}
-      <div className="flex items-center gap-6 flex-wrap">
+      <div className="flex items-center gap-2 md:!gap-6 flex-wrap">
         <div>
-          <div className="text-lg font-semibold flex justify-start gap-2 mb-2 md:!mb-0">
+          <div className="text-lg font-semibold flex justify-start gap-2 mb-1 md:!mb-2 md:!mb-0">
             <span className="font-bold">Betting Odds: </span>
             <span>1:{odds}</span>
           </div>

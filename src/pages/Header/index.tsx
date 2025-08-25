@@ -19,8 +19,6 @@ const Header = () => {
     setHoverTab(undefined);
   };
 
-  console.log('ctx', ctx)
-  
   return (
     <div
       className="relative h-14"
