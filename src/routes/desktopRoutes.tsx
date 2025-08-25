@@ -15,10 +15,6 @@ export const desktopRoutes: RouteObject[] = [
         path: PATH.home,
         element: <HomePage />,
       },
-      {
-        path: PATH.lotto,
-        element: <HomePage />,
-      },
     ],
   },
 ];

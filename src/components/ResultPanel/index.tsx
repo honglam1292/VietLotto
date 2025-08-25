@@ -14,18 +14,14 @@ type Results = {
   "G.ĐB": string[]; // 6 số (1 dòng)
 };
 
-const ORDER: (keyof Results)[] = [
-  "G.8", "G.7", "G.6", "G.5", "G.4", "G.3", "G.2", "G.1", "G.ĐB"
-];
-
 export default function ResultPanel() {
   const ctx = useContext(LottoContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [weekday, setWeekday] = useState("");
+  const [displayDate, setDisplayDate] = useState<Date>()
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
-
   const getWeekDay = (date: Date = new Date()): string => {
     const days = [
       "Chủ Nhật",
@@ -38,11 +34,18 @@ export default function ResultPanel() {
     ];
     return days[date.getDay()];
   };
+  const isMB = ctx?.selectCountry === "Miền Bắc";
+  const ORDER: (keyof Results)[] = isMB ? [
+    "G.7", "G.6", "G.5", "G.4", "G.3", "G.2", "G.1", "G.ĐB"
+  ] : [
+    "G.8", "G.7", "G.6", "G.5", "G.4", "G.3", "G.2", "G.1", "G.ĐB"
+  ];
 
   useEffect(() => {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     setWeekday(getWeekDay(yesterday));
+    setDisplayDate(yesterday);
   }, []);
 
   const prevWeekdays = useMemo(() => {
@@ -62,7 +65,17 @@ export default function ResultPanel() {
     return num.toString().padStart(digits, "0");
   }
   const mockRs = useMemo(() => {
-    return {
+    return isMB ? {
+      // "G.8": [randomNumber(2)],
+      "G.7": [randomNumber(3), randomNumber(3), randomNumber(3), randomNumber(3)],
+      "G.6": [randomNumber(4), randomNumber(4), randomNumber(4),],
+      "G.5": [randomNumber(4), randomNumber(4), randomNumber(4), randomNumber(4), randomNumber(4), randomNumber(4)],
+      "G.4": [randomNumber(5), randomNumber(5), randomNumber(5), randomNumber(5),],
+      "G.3": [randomNumber(5), randomNumber(5), randomNumber(5), randomNumber(5), randomNumber(5), randomNumber(5)],
+      "G.2": [randomNumber(5), randomNumber(5)],
+      "G.1": [randomNumber(5)],
+      "G.ĐB": [randomNumber(5)]
+    } : {
       "G.8": [randomNumber(2)],
       "G.7": [randomNumber(3)],
       "G.6": [randomNumber(4), randomNumber(4), randomNumber(4), randomNumber(4)],
@@ -73,13 +86,12 @@ export default function ResultPanel() {
       "G.1": [randomNumber(5)],
       "G.ĐB": [randomNumber(6)]
     }
-  }, [weekday]);
+  }, [isMB]);
 
   if (!ctx) return null;
 
   const getYesterday = (): string => {
-    const d = new Date();
-    d.setDate(d.getDate() - 1);
+    const d = displayDate || new Date();
     const dd = String(d.getDate()).padStart(2, "0");
     const mm = String(d.getMonth() + 1).padStart(2, "0");
     const yyyy = d.getFullYear();
@@ -123,6 +135,9 @@ export default function ResultPanel() {
                 key={i}
                 onClick={() => {
                   setWeekday(label);
+                  const today = new Date();
+                  today.setDate(today.getDate() - i - 1);
+                  setDisplayDate(today);
                   handleClose();
                 }}
               >
@@ -153,13 +168,13 @@ export default function ResultPanel() {
           <tbody>
             {ORDER.map((key, idx) => {
               const arr = mockRs[key] ?? [];
-              const isRed = key === "G.8" || key === "G.ĐB";
+              const isRed = key === (isMB ? "G.7" : "G.8") || key === "G.ĐB";
               const cell = (
-                <div className="py-1 space-y-1">
+                <div className="space-y-0">
                   {arr.map((v, i) => (
                     <div
                       key={i}
-                      className={`text-[22px] leading-6 tracking-wide font-extrabold ${isRed ? "text-red-600" : "text-black"}`}
+                      className={`mb-[0.25px] text-[22px] leading-10 tracking-wide font-extrabold ${isRed ? "text-red-600" : "text-black"}`}
                       style={{ fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial" }}
                     >
                       {v.padStart(v.length, "0")}
@@ -173,10 +188,10 @@ export default function ResultPanel() {
               const needSeparator = key === "G.4" || key === "G.3";
               return (
                 <tr key={key} className={idx % 2 ? "bg-white" : "bg-[#f9fbff]"}>
-                  <td className="align-middle px-3 py-2 border-t border-r border-gray-200">
+                  <td className="align-middle px-3 leading-10 py-0 border-t border-r border-gray-200">
                     <span className="text-gray-700 font-semibold">{key}</span>
                   </td>
-                  <td className="px-3 py-2 border-t border-gray-200">{cell}</td>
+                  <td className="px-3 py-0 border-t leading-10 border-gray-200">{cell}</td>
                   {needSeparator && (
                     // hàng phân cách (tạo row riêng ngay sau)
                     <></>

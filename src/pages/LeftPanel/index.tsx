@@ -28,6 +28,7 @@ const LeftPanel = () => {
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+  const isMB = ctx?.selectCountry === "Miền Bắc";
 
   useEffect(() => {
     handleClose();
@@ -106,101 +107,107 @@ const LeftPanel = () => {
 
   return (
     <div>
-      <div className="flex justify-around items-center">
-        <div className="text-center px-4 py-2 rounded-md text-black bg-[#FFBD00] border border-black">
-          {ctx.channel}
-        </div>
-        <div className="text-black">
-          <Button
-            id="basic-button"
-            aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
-            type="button"
-            variant="contained"
-            disableElevation
-            sx={{
-              backgroundColor: "#4472C4",
-              color: "white",
-              border: "1px solid #000",
-              textTransform: "none",
-              "&:hover": { backgroundColor: "#3a61a5", borderColor: "#000" },
-              height: "41px",
-            }}
-          >
-            Last {ctx.digit} digits
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            slotProps={{ list: { "aria-labelledby": "basic-button" } }}
-          >
-            <MenuItem onClick={() => ctx.setDigit(2)}>Last 2 digits</MenuItem>
-            <MenuItem onClick={() => ctx.setDigit(3)}>Last 3 digits</MenuItem>
-            <MenuItem onClick={() => ctx.setDigit(4)}>Last 4 digits</MenuItem>
-          </Menu>
-        </div>
-      </div>
-
-      <div className="flex justify-between mt-4 md:mt-6">
-        <div className="font-bold flex-1 flex justify-center items-center">
-          Key {ctx.digit} digit{ctx.digit > 1 ? "s" : ""} :
+      <div className="p-2 md:!p-4 rounded-lg bg-slate-200">
+        <div className="flex justify-around items-center">
+          <div className="text-center px-4 py-2 rounded-md text-black bg-[#FFBD00] 
+            shadow-[0_3px_6px_rgba(0,0,0,0.4),0_2px_4px_rgba(0,0,0,0.3)]">
+            {ctx.channel}
+          </div>
+          <div className="text-black">
+            <Button
+              id="basic-button"
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+              type="button"
+              variant="contained"
+              // disableElevation
+              sx={{
+                backgroundColor: "#4472C4",
+                color: "white",
+                border: "1px solid #000",
+                textTransform: "none",
+                "&:hover": { backgroundColor: "#3a61a5", borderColor: "#000" },
+                height: "41px",
+              }}
+            >
+              Last {ctx.digit} digits
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              slotProps={{ list: { "aria-labelledby": "basic-button" } }}
+            >
+              {isMB ? null : <MenuItem onClick={() => ctx.setDigit(2)}>Last 2 digits</MenuItem>}
+              <MenuItem onClick={() => ctx.setDigit(3)}>Last 3 digits</MenuItem>
+              <MenuItem onClick={() => ctx.setDigit(4)}>Last 4 digits</MenuItem>
+            </Menu>
+          </div>
         </div>
 
-        <div className="flex-1 flex justify-around">
-          {Array.from({ length: ctx.digit }).map((_, i) => (
-            <input
-              key={i}
-              ref={(el) => (inputRefs.current[i] = el)}
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={1}
-              value={digits[i] !== undefined ? String(digits[i]) : ""}
-              onChange={(e) => onChangeDigit(i, e.target.value)}
-              onKeyDown={(e) => onKeyDown(i, e)}
-              className="size-8 md:!size-10 text-center font-bold text-lg rounded-full 
+        <div className="flex justify-between mt-4 md:mt-6">
+          <div className="font-bold flex-1 flex justify-center items-center">
+            Key {ctx.digit} digit{ctx.digit > 1 ? "s" : ""} :
+          </div>
+
+          <div className="flex-1 flex justify-around">
+            {Array.from({ length: ctx.digit }).map((_, i) => (
+              <input
+                key={i}
+                ref={(el) => (inputRefs.current[i] = el)}
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={1}
+                value={digits[i] !== undefined ? String(digits[i]) : ""}
+                onChange={(e) => onChangeDigit(i, e.target.value)}
+                onKeyDown={(e) => onKeyDown(i, e)}
+                className="size-8 md:!size-10 text-center font-bold text-lg rounded-full 
                  border border-[#1a2b49] bg-gray-300 focus:outline-none"
-            />
-          ))}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="p-2 md:!p-4 rounded-lg bg-slate-200 mt-6 md:mt-12">
+        <div className="">
+          <Countdown />
         </div>
       </div>
 
-      <div className="mt-6 md:mt-16">
-        <Countdown />
-      </div>
-
-      <div className="mt-8 md:mt-20">
-        <BetModeSelector />
-        <div
-          className="flex gap-8 justify-center items-center w-full mt-4"
-        >
-          <span className={woodStyle} onClick={onClickOpenFolkGame}>Folk Game</span>
-          <Modal
-            open={openFolkGame}
-            onClose={handleCloseFolkGame}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+      <div className="p-2 md:!p-6 rounded-lg bg-slate-200 mt-6 md:mt-12">
+        <div className="">
+          <BetModeSelector />
+          <div
+            className="flex gap-8 justify-center items-center w-full mt-4"
           >
-            <Box sx={style}>
-              <div className="p-0 md:!p-6 max-h-[80vh] overflow-auto w-[80vw]">
-                <FolkGame />
-              </div>
-            </Box>
-          </Modal>
-          <Checkbox
-            sx={{
-              transform: window.innerWidth > 768 ? "scale(1.3)" : "scale(1.1)",
-              color: "#1a2b49",
-              "&.Mui-checked": {
+            <span className={woodStyle} onClick={onClickOpenFolkGame}>Folk Game</span>
+            <Modal
+              open={openFolkGame}
+              onClose={handleCloseFolkGame}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style}>
+                <div className="p-0 md:!p-6 max-h-[80vh] overflow-auto w-[80vw]">
+                  <FolkGame />
+                </div>
+              </Box>
+            </Modal>
+            <Checkbox
+              sx={{
+                transform: window.innerWidth > 768 ? "scale(1.3)" : "scale(1.1)",
                 color: "#1a2b49",
-              },
-              visibility: "hidden",
-            }}
-          />
+                "&.Mui-checked": {
+                  color: "#1a2b49",
+                },
+                visibility: "hidden",
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

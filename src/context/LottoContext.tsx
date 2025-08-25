@@ -1,5 +1,5 @@
 // LottoContext.tsx
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, ReactNode, useEffect } from "react";
 
 type LottoContextType = {
   channel: string;
@@ -20,12 +20,19 @@ export const LottoContext = createContext<LottoContextType | undefined>(undefine
 
 export const LottoProvider = ({ children }: { children: ReactNode }) => {
   const [channel, setChannel] = useState("Miền Bắc");
-  const [digit, setDigit] = useState(2);
+  const [digit, setDigit] = useState(3);
   const [drawValue, setDrawValue] = useState(0);
   const [betValue, setBetValue] = useState<(number | undefined)[]>([]);
   const [selectCountry, setSelectCountry] = useState<string>("Miền Bắc");
   const [numOfSelectBet, setNumOfSelectBet] = useState(0);
 
+  useEffect(() => {
+    if (channel === "Miền Bắc") {
+      setDigit(3);
+    } else {
+      setDigit(2);
+    }
+  }, [channel])
 
   return (
     <LottoContext.Provider value={{
