@@ -6,12 +6,15 @@ const GrayDot = ({
   dark,
   value,
   showValue,
+  title
 }: {
   dark?: boolean;
   value: string | number;
   showValue: boolean;
+  title: string;
 }) => (
   <div
+    title={title}
     className={`size-6 rounded-full border border-[#1a2b49] flex items-center justify-center ${dark ? "bg-gray-400" : "bg-gray-200"
       }`}
   >
@@ -356,6 +359,7 @@ export default function DrawTable() {
                           dark={dark}
                           showValue={isRowChecked}
                           value={getValue(i, r.gray)}
+                          title={ctx.channel}
                         />
                       ))}
                     </div>

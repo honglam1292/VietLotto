@@ -9,12 +9,12 @@ const parseAmount = (s: string) => {
   return onlyDigits ? Math.min(Number(onlyDigits), 10_000_000_000) : 0;
 };
 
-const Chip: React.FC<{ label: string; onClick: () => void }> = ({ label, onClick }) => (
+const Chip: React.FC<{ label: string; onClick: () => void, color: string }> = ({ label, onClick, color }) => (
   <button
     type="button"
     onClick={onClick}
-    className="cursor-pointer w-10 h-10 rounded-full bg-black text-white flex items-center justify-center mx-1 shadow
-               border-4 border-dotted border-white/70 hover:brightness-110 active:scale-95"
+    className={`cursor-pointer w-10 h-10 rounded-full bg-[${color}] text-white flex items-center justify-center mx-1 shadow
+               border-4 border-dotted border-white/70 hover:brightness-110 active:scale-95`}
     title={label}
   >
     <span className="text-xs font-bold">{label}</span>
@@ -28,7 +28,7 @@ export default function Footer() {
   const ctx = useContext(LottoContext);
   const selectedCount = ctx?.numOfSelectBet || 0;
   const total = useMemo(() => amount * (selectedCount || 0), [amount, selectedCount]);
-
+  const colors = ['#FFBD00', '#A32020', '#4bea4c', '#FE6464', '#B27D49']
   return (
     <div
       className="w-full h-full px-4 py-3 flex flex-col md:!flex-row items-center gap-2 md:!gap-4 rounded-md"
@@ -59,8 +59,8 @@ export default function Footer() {
         </div>
         {/* Chips */}
         <div className="w-full md:!w-[300px] flex justify-around items-center">
-          {chipValues.map((v) => (
-            <Chip key={v} label={`${v / 1000}`} onClick={() => setAmount(v)} />
+          {chipValues.map((v, i) => (
+            <Chip key={v} label={`${v / 1000}`} onClick={() => setAmount(v)} color={colors[i]} />
           ))}
         </div>
 
