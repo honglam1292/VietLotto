@@ -136,7 +136,7 @@ const LeftPanel = () => {
             className="text-center px-4 py-2 rounded-md text-black bg-[#FFBD00] 
               shadow-[0_3px_6px_rgba(0,0,0,0.4),0_2px_4px_rgba(0,0,0,0.3)]"
           >
-            {ctx.channel}
+            {t(ctx.channel)}
           </button>
 
           <Menu
