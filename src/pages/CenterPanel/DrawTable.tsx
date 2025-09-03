@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Checkbox } from "@mui/material";
 import { LottoContext } from "@/context/LottoContext";
+import { useTranslation } from "react-i18next";
 
 const GrayDot = ({
   dark,
@@ -31,6 +32,7 @@ type RowDef = {
 
 export default function DrawTable() {
   const ctx = useContext(LottoContext);
+  const { t } = useTranslation();
 
   // state lưu row nào được check
   const [checkedRows, setCheckedRows] = useState<Record<string, boolean>>({});
@@ -306,7 +308,7 @@ export default function DrawTable() {
           <thead>
             <tr className="bg-gradient-to-b from-gray-100 to-gray-200">
               <th className="w-[90px] text-center font-bold px-4 py-2 border border-gray-300">
-                Giải
+                {t("Giải")}
               </th>
               <th className="text-left font-bold px-4 py-2 border border-gray-300"></th>
               <th className="w-[72px] text-center font-bold px-1 md:!px-4 py-0 border border-gray-300">
@@ -346,7 +348,7 @@ export default function DrawTable() {
                       rowSpan={rowSpan}
                       className="align-middle px-4 py-0 border border-gray-300"
                     >
-                      <span className="font-semibold">{base}</span>
+                      <span className="font-semibold">{t(base)}</span>
                     </td>
                   )}
 

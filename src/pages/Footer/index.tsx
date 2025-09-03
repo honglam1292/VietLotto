@@ -1,5 +1,6 @@
 import { LottoContext } from "@/context/LottoContext";
 import React, { useState, useMemo, useContext } from "react";
+import { useTranslation } from "react-i18next";
 
 const formatNumber = (n: number) =>
   n.toLocaleString("en-US", { maximumFractionDigits: 0 });
@@ -26,6 +27,7 @@ export default function Footer() {
   const [amount, setAmount] = useState(5000);
   const chipValues = [5000, 10000, 20000, 50000, 100000];
   const ctx = useContext(LottoContext);
+  const { t } = useTranslation();
   const selectedCount = ctx?.numOfSelectBet || 0;
   const total = useMemo(() => amount * (selectedCount || 0), [amount, selectedCount]);
   const colors = ['#FFBD00', '#A32020', '#4bea4c', '#FE6464', '#B27D49']
@@ -42,12 +44,12 @@ export default function Footer() {
       <div className="flex items-center gap-2 md:!gap-6 flex-wrap">
         <div>
           <div className="text-lg font-semibold flex justify-start gap-2 mb-1 md:!mb-2 md:!mb-0">
-            <span className="font-bold">Betting Odds: </span>
+            <span className="font-bold">{t("Betting Odds")}: </span>
             <span>1:{odds}</span>
           </div>
 
           <div className="flex items-center gap-2 text-lg font-semibold">
-            <span>Bet amount:</span>
+            <span>{t("Bet amount")}:</span>
             <input
               type="text"
               value={formatNumber(amount)}
@@ -66,8 +68,8 @@ export default function Footer() {
 
         {/* Selected count */}
         <div className="text-lg font-semibold w-full md:!w-auto">
-          Selected{" "}
-          <span className="text-red-600">{selectedCount}</span> number sets
+          {t("Selected")}{" "}
+          <span className="text-red-600">{selectedCount}</span> {t("number sets")}
         </div>
       </div>
 
@@ -79,7 +81,7 @@ export default function Footer() {
         className="w-[280px] md:!w-auto px-5 py-3 rounded-xl text-white text-xl font-extrabold shadow border"
         style={{ backgroundColor: "#4472C4", borderColor: "#2b4a7b" }}
       >
-        Total bet: {formatNumber(total)} vnd
+        {t("Total bet")}: {formatNumber(total)} vnd
       </div>
 
       {/* Confirm */}
@@ -89,7 +91,7 @@ export default function Footer() {
         className="w-[280px] md:!w-auto cursor-pointer ml-0 md:!ml-3 px-5 py-3 rounded-xl text-xl font-semibold shadow border border-black/60
                    bg-gradient-to-b from-gray-300 to-gray-500 hover:brightness-105 active:scale-95"
       >
-        Confirm
+        {t("Confirm")}
       </button>
     </div>
   );

@@ -1,10 +1,12 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { LottoContext } from "@/context/LottoContext";
 import { getDateTimeForChannelToday } from "@/helper/common";
+import { useTranslation } from "react-i18next";
 
 function getNextTarget(channel: string): Date | undefined {
   const now = new Date();
   const todayTarget = getDateTimeForChannelToday(channel, now);
+
   if (!todayTarget) return undefined;
 
   if (todayTarget.getTime() <= now.getTime()) {
@@ -30,6 +32,8 @@ function formatDiff(ms: number) {
 
 export default function Countdown() {
   const ctx = useContext(LottoContext);
+  const { t } = useTranslation();
+
   const channel = ctx?.channel ?? "";
   const [target, setTarget] = useState<Date | undefined>(() =>
     getNextTarget(channel)
@@ -64,7 +68,7 @@ export default function Countdown() {
 
   return (
     <div className="text-center">
-      <div className="text-base md:!text-2xl font-semibold mb-2">Countdown</div>
+      <div className="text-base md:!text-2xl font-semibold mb-2">{t("Countdown")}</div>
 
       <div
         className="inline-block rounded-xl p-[2px]"

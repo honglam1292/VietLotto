@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   open: boolean;
@@ -8,6 +9,7 @@ type Props = {
 };
 
 export default function ModalLogin({ open, onClose, onSubmit, loading }: Props) {
+  const { t } = useTranslation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
@@ -16,12 +18,11 @@ export default function ModalLogin({ open, onClose, onSubmit, loading }: Props) 
   const dialogRef = useRef<HTMLDivElement>(null);
   const firstFieldRef = useRef<HTMLInputElement>(null);
 
-  // Lock scroll + focus first field
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const t = setTimeout(() => firstFieldRef.current?.focus(), 0);
+    const tId = setTimeout(() => firstFieldRef.current?.focus(), 0);
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -30,11 +31,10 @@ export default function ModalLogin({ open, onClose, onSubmit, loading }: Props) 
     return () => {
       document.body.style.overflow = prev;
       document.removeEventListener("keydown", onKey);
-      clearTimeout(t);
+      clearTimeout(tId);
     };
   }, [open, onClose]);
 
-  // Close when clicking outside
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) onClose();
   };
@@ -44,9 +44,9 @@ export default function ModalLogin({ open, onClose, onSubmit, loading }: Props) 
     setError(null);
     try {
       await onSubmit?.({ username, password, remember });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      setError(err?.message || "Đăng nhập thất bại. Vui lòng thử lại.");
+      setError(err?.message || t("auth_login_error"));
     }
   };
 
@@ -65,12 +65,14 @@ export default function ModalLogin({ open, onClose, onSubmit, loading }: Props) 
         className="w-full max-w-md rounded-2xl shadow-2xl bg-white overflow-hidden"
         onMouseDown={(e) => e.stopPropagation()}
       >
-        {/* Header vàng theo site */}
+        {/* Header */}
         <div className="bg-[#FFBD00] px-5 py-3 flex items-center justify-between">
-          <h2 id="login-title" className="text-[#1a2b49] font-semibold text-lg">Đăng nhập</h2>
+          <h2 id="login-title" className="text-[#1a2b49] font-semibold text-lg">
+            {t("auth_login_title")}
+          </h2>
           <button
-            className="size-8 grid place-items-center rounded-full hover:bg-black/10 text-[#1a2b49]"
-            aria-label="Đóng"
+            className="size-8 grid place-items-center rounded-full hover:bgブラック/10 text-[#1a2b49]"
+            aria-label={t("common_close")}
             onClick={onClose}
           >
             <svg viewBox="0 0 20 20" className="size-5" fill="currentColor"><path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" /></svg>
@@ -78,7 +80,6 @@ export default function ModalLogin({ open, onClose, onSubmit, loading }: Props) 
         </div>
 
         <form onSubmit={submit} className="px-6 pt-5 pb-6">
-          {/* Alert lỗi */}
           {error && (
             <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
               {error}
@@ -86,7 +87,9 @@ export default function ModalLogin({ open, onClose, onSubmit, loading }: Props) 
           )}
 
           {/* Username */}
-          <label className="block text-sm font-medium text-[#1a2b49] mb-1">Email / Số điện thoại</label>
+          <label className="block text-sm font-medium text-[#1a2b49] mb-1">
+            {t("auth_login_username_label")}
+          </label>
           <input
             ref={firstFieldRef}
             type="text"
@@ -94,18 +97,20 @@ export default function ModalLogin({ open, onClose, onSubmit, loading }: Props) 
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1a2b49] focus:border-transparent"
-            placeholder="you@example.com"
+            placeholder={t("auth_login_username_placeholder")}
           />
 
           {/* Password */}
-          <label className="block text-sm font-medium text-[#1a2b49] mt-4 mb-1">Mật khẩu</label>
+          <label className="block text-sm font-medium text-[#1a2b49] mt-4 mb-1">
+            {t("auth_login_password_label")}
+          </label>
           <input
             type="password"
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1a2b49] focus:border-transparent"
-            placeholder="••••••••"
+            placeholder={t("auth_login_password_placeholder")}
           />
 
           {/* Options */}
@@ -116,16 +121,17 @@ export default function ModalLogin({ open, onClose, onSubmit, loading }: Props) 
                 checked={remember}
                 onChange={(e) => setRemember(e.target.checked)}
                 className="size-4 rounded border-gray-300 text-[#1a2b49] focus:ring-[#1a2b49]"
+                aria-label={t("auth_login_remember")}
               />
-              Ghi nhớ
+              {t("auth_login_remember")}
             </label>
 
             <button
               type="button"
               className="text-sm text-[#1a2b49] hover:underline"
-              onClick={() => alert('Đi tới trang quên mật khẩu')}
+              onClick={() => alert(t("auth_login_forgot_go"))}
             >
-              Quên mật khẩu?
+              {t("auth_login_forgot")}
             </button>
           </div>
 
@@ -137,11 +143,19 @@ export default function ModalLogin({ open, onClose, onSubmit, loading }: Props) 
                        disabled:opacity-60
                        bg-gradient-to-b from-[#b77a3e] to-[#8e5b2c] hover:brightness-105"
           >
-            {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+            {loading ? t("auth_login_loading") : t("auth_login_submit")}
           </button>
+
           {/* Fine print */}
           <p className="mt-3 text-[11px] text-gray-500 leading-snug">
-            Bằng việc tiếp tục, bạn đồng ý với <a className="underline hover:no-underline" href="#">Điều khoản</a> & <a className="underline hover:no-underline" href="#">Chính sách</a>.
+            {t("auth_login_terms_prefix")}{" "}
+            <a className="underline hover:no-underline" href="#">
+              {t("common_terms")}
+            </a>{" "}
+            &{" "}
+            <a className="underline hover:no-underline" href="#">
+              {t("common_policy")}
+            </a>.
           </p>
         </form>
       </div>

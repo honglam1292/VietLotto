@@ -2,9 +2,11 @@ import { LottoContext } from "@/context/LottoContext";
 import { getDateTimeForChannelToday } from "@/helper/common";
 import { useContext, useMemo } from "react";
 import DrawTable from "./DrawTable";
+import { useTranslation } from "react-i18next";
 
 const CenterPanel = () => {
   const ctx = useContext(LottoContext);
+  const { t } = useTranslation();
 
   const drawDateStr = useMemo(() => {
     const now = new Date();
@@ -30,7 +32,7 @@ const CenterPanel = () => {
   return (
     <div className="text-black">
       <div className="text-center">
-        Lượt xổ: <strong>{drawDateStr}</strong>
+        {t("Lượt xổ")}: <strong>{drawDateStr}</strong>
       </div>
       <div className="mt-4 md:!mt-8">
         <DrawTable />

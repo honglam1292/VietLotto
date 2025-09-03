@@ -5,6 +5,7 @@ import { LottoContext } from "@/context/LottoContext";
 import { Box, Button, Checkbox, Menu, MenuItem, Modal } from "@mui/material";
 import { useContext, useEffect, useRef, useState } from "react";
 import { getLotteryToday } from "../Header/mock";
+import { useTranslation } from "react-i18next";
 
 type DigitValue = number | undefined;
 
@@ -25,6 +26,7 @@ const style = {
 
 const LeftPanel = () => {
   const ctx = useContext(LottoContext);
+  const { t } = useTranslation();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -179,7 +181,7 @@ const LeftPanel = () => {
                 height: "41px",
               }}
             >
-              Last {ctx.digit} digits
+              {t("Last")} {ctx.digit} {t("digits")}
             </Button>
             <Menu
               id="basic-menu"
@@ -188,16 +190,16 @@ const LeftPanel = () => {
               onClose={handleClose}
               slotProps={{ list: { "aria-labelledby": "basic-button" } }}
             >
-              <MenuItem onClick={() => ctx.setDigit(2)}>Last 2 digits</MenuItem>
-              <MenuItem onClick={() => ctx.setDigit(3)}>Last 3 digits</MenuItem>
-              <MenuItem onClick={() => ctx.setDigit(4)}>Last 4 digits</MenuItem>
+              <MenuItem onClick={() => ctx.setDigit(2)}> {t("Last")} 2 {t("digits")}</MenuItem>
+              <MenuItem onClick={() => ctx.setDigit(3)}> {t("Last")} 3 {t("digits")}</MenuItem>
+              <MenuItem onClick={() => ctx.setDigit(4)}> {t("Last")} 4 {t("digits")}</MenuItem>
             </Menu>
           </div>
         </div>
 
         <div className="flex justify-between mt-4 md:mt-6">
           <div className="font-bold flex-1 flex justify-center items-center">
-            Key {ctx.digit} digit{ctx.digit > 1 ? "s" : ""} :
+            {t("Key")} {ctx.digit} {t("digits")} :
           </div>
 
           <div className="flex-1 flex justify-around">
@@ -231,7 +233,7 @@ const LeftPanel = () => {
           <BetModeSelector />
           <div className="flex gap-8 justify-center items-center w-full mt-4">
             <span className={woodStyle} onClick={onClickOpenFolkGame}>
-              Folk Game
+              {t("Folk Game")}
             </span>
             <Modal
               open={openFolkGame}

@@ -1,20 +1,23 @@
 import { useContext } from "react";
 import { Checkbox } from "@mui/material";
 import { LottoContext } from "@/context/LottoContext";
+import { useTranslation } from "react-i18next";
 
 const woodStyle =
   "w-40 md:!w-52 gap-8 rounded-xl px-3 md:!px-5 py-3 text-base md:!text-2xl font-extrabold text-black shadow " +
   "bg-[linear-gradient(180deg,#b9814a_0%,#ba8a56_45%,#a86d38_100%)] " +
-  "border border-[#7a4f2a] text-center";
+  "border border-[#7a4f2a] text-center whitespace-nowrap";
 
 export default function BetModeSelector() {
   const ctx = useContext(LottoContext);
+  const { t } = useTranslation();
+
   if (!ctx) return null;
 
   const options = [
-    { value: 0, label: "Bet all draw" },
-    { value: 1, label: "Bet 7 draw" },
-    { value: 2, label: "Top & Bottom" },
+    { value: 0, label: t("Bet all draw") },
+    { value: 1, label: t("Bet 7 draw") },
+    { value: 2, label: t("Top & Bottom") },
   ];
 
   const toggle = (val: number) => {

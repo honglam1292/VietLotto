@@ -1,6 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { LottoContext } from "@/context/LottoContext";
 import { Button, Menu, MenuItem } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 type Results = {
   "G.8": string[];  // 2 số
@@ -19,6 +20,7 @@ export default function ResultPanel() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [weekday, setWeekday] = useState("");
   const [displayDate, setDisplayDate] = useState<Date>()
+  const { t } = useTranslation();
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
@@ -101,10 +103,11 @@ export default function ResultPanel() {
 
   const countryTitle = ctx.selectCountry.split(' ').map(t => t[0])
   const channelTitle = ctx.channel.split(' ').map(t => t[0])
+  console.log('countryTitle', countryTitle)
   return (
     <div>
-      <div className="flex gap-1 mb-4 md:!mb-8 justify-center text-base">
-        XS{countryTitle}
+      <div className="flex gap-1 mb-4 md:!mb-8 justify-center text-base whitespace-nowrap">
+        {t("XS")}{t(countryTitle.join(''))}
         <div>›</div>
         <div className="text-black">
           <Button
@@ -119,9 +122,10 @@ export default function ResultPanel() {
               height: "18px",
               fontSize: "16px",
               marginTop: "-1px",
+              whiteSpace: "nowrap",
             }}
           >
-            XS{countryTitle} {weekday}
+            {t("XS")}{t(countryTitle.join(''))} {t(weekday)}
           </Button>
           <Menu
             id="basic-menu"
@@ -147,7 +151,7 @@ export default function ResultPanel() {
           </Menu>
         </div>
         <div>›</div>
-        XS{channelTitle} {getYesterday()}
+        {t("XS")}{t(channelTitle.join(''))} {getYesterday()}
       </div>
       <div className="inline-block border border-gray-300 rounded-sm overflow-hidden text-black">
         <table className="table-fixed">
@@ -158,9 +162,9 @@ export default function ResultPanel() {
 
           <thead>
             <tr>
-              <th className="bg-gray-100 text-center px-3 py-2 border-b border-r border-gray-300">Giải</th>
+              <th className="bg-gray-100 text-center px-3 py-2 border-b border-r border-gray-300">{t("Giải")}</th>
               <th className="bg-gray-100 text-blue-600 underline px-3 py-2 border-b border-gray-300 text-center">
-                {ctx.channel}
+                {t(ctx.channel)}
               </th>
             </tr>
           </thead>
@@ -189,7 +193,7 @@ export default function ResultPanel() {
               return (
                 <tr key={key} className={idx % 2 ? "bg-white" : "bg-[#f9fbff]"}>
                   <td className="align-middle px-3 leading-10 py-0 border-t border-r border-gray-200">
-                    <span className="text-gray-700 font-semibold">{key}</span>
+                    <span className="text-gray-700 font-semibold">{t(key)}</span>
                   </td>
                   <td className="px-3 py-0 border-t leading-10 border-gray-200">{cell}</td>
                   {needSeparator && (
