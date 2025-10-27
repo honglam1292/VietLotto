@@ -9,7 +9,7 @@ import NumberStats from "@/components/NumberStats";
 import AccountPage from "../AccountPage";
 
 const Homepage = () => {
-  const [active, setActive] = useState<TabKey>("account");
+  const [active, setActive] = useState<TabKey>("bet");
   return (
     <div className="flex justify-center">
       <div className="w-screen hidden md:!block md:!w-[1400px]">
