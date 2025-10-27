@@ -16,7 +16,7 @@ const GrayDot = ({
 }) => (
   <div
     title={title}
-    className={`size-6 rounded-full border border-[#1a2b49] flex items-center justify-center ${dark ? "bg-gray-400" : "bg-gray-200"
+    className={`size-6 rounded-full border border-[#1a2b49] flex items-center justify-center ${dark ? "bg-gray-100" : "bg-white"
       }`}
   >
     {dark ? "" : showValue ? value : ""}
@@ -303,26 +303,28 @@ export default function DrawTable() {
   const bgWhite = ['G.2', 'G.4', 'G.6', 'G.8', 'G.ĐB'];
   return (
     <div className="w-full flex justify-center overflow-x-auto">
-      <div className="w-full md:!w-[600px]">
+      <div className="w-full">
         <table className="w-full border-collapse text-black">
           <thead>
-            <tr className="bg-gradient-to-b from-gray-100 to-gray-200">
-              <th className="w-[90px] text-center font-bold px-4 py-2 border border-gray-300">
+            <tr className="bg-[#faefc8] text-[#aa7b05]">
+              <th className="w-auto md:!w-[90px] text-center font-bold px-4 py-2 border border-gray-300">
                 {t("Giải")}
               </th>
-              <th className="text-left font-bold px-4 py-2 border border-gray-300"></th>
-              <th className="w-[72px] text-center font-bold px-1 md:!px-4 py-0 border border-gray-300">
-                <Checkbox
-                  checked={!!Object.keys(checkedRows).filter(key => checkedRows[key]).length}
-                  onChange={handleCheckAll}
-                  size="small"
-                  sx={{
-                    color: "#1a2b49",
-                    padding: 1,
-                    marginLeft: 0.25,
-                    "&.Mui-checked": { color: "#1a2b49" },
-                  }}
-                />
+              <th className="w-auto md:!w-[72px] font-bold p-0 border border-gray-300">
+                <div className="flex justify-end">
+                  <div className="text-[#aa7b05] mt-1.5">{t("Select Prize to Bet")}</div>
+                  <Checkbox
+                    checked={!!Object.keys(checkedRows).filter(key => checkedRows[key]).length}
+                    onChange={handleCheckAll}
+                    size="small"
+                    sx={{
+                      color: "#1a2b49",
+                      padding: 1,
+                      marginLeft: 0.25,
+                      "&.Mui-checked": { color: "#1a2b49" },
+                    }}
+                  />
+                </div>
               </th>
             </tr>
           </thead>
@@ -340,9 +342,9 @@ export default function DrawTable() {
               return (
                 <tr
                   key={r.label}
-                  className={bgWhite.filter(bg => r.label.includes(bg)).length > 0 ? "bg-white" : "bg-[#f7f9fc]"}
+                  // className={bgWhite.filter(bg => r.label.includes(bg)).length > 0 ? "bg-white" : "bg-[#f7f9fc]"}
+                  className="bg-[#fafafa]"
                 >
-                  {/* Ô "Giải" gộp theo rowSpan */}
                   {shouldRenderLabelCell && (
                     <td
                       rowSpan={rowSpan}
@@ -353,22 +355,39 @@ export default function DrawTable() {
                   )}
 
                   {/* Cột dots */}
-                  <td className="px-4 py-0 border border-gray-300">
-                    <div className="flex justify-end gap-3">
-                      {Array.from({ length: r.gray }).map((_, i) => (
-                        <GrayDot
-                          key={`g-${r.label}-${i}`}
-                          dark={dark}
-                          showValue={isRowChecked}
-                          value={getValue(i, r.gray)}
-                          title={ctx.channel}
-                        />
-                      ))}
+                  <td className="pl-4 py-0 border border-gray-300">
+                    <div className="flex gap-1 justify-end">
+                      <div className="flex gap-1 mt-2">
+                        {Array.from({ length: r.gray }).map((_, i) => (
+                          <GrayDot
+                            key={`g-${r.label}-${i}`}
+                            dark={dark}
+                            showValue={isRowChecked}
+                            value={getValue(i, r.gray)}
+                            title={ctx.channel}
+                          />
+                        ))}
+                      </div>
+                      <Checkbox
+                        checked={isRowChecked}
+                        onChange={() => {
+                          if (dark) return;
+                          if (!isRowChecked && Object.keys(checkedRows).filter(key => checkedRows[key]).length >= 7 && drawValue === 1) return;
+                          toggleRow(r.label);
+                        }}
+                        size="small"
+                        sx={{
+                          color: "#1a2b49",
+                          padding: 1,
+                          "&.Mui-checked": { color: "#1a2b49" },
+                          marginTop: 0.25
+                        }}
+                      />
                     </div>
                   </td>
 
                   {/* Cột checkbox */}
-                  <td className="px-1 md:!px-4 py-0 border border-gray-300">
+                  {/* <td className="px-1 md:!px-4 py-0 border border-gray-300">
                     <Checkbox
                       checked={isRowChecked}
                       onChange={() => {
@@ -383,7 +402,7 @@ export default function DrawTable() {
                         "&.Mui-checked": { color: "#1a2b49" },
                       }}
                     />
-                  </td>
+                  </td> */}
                 </tr>
               );
             })}

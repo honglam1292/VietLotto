@@ -80,5 +80,20 @@
   "auth_login_submit": "Login",
   "auth_login_loading": "Signing in...",
   "auth_login_error": "Login failed. Please try again.",
-  "auth_login_terms_prefix": "By continuing, you agree to our"
+  "auth_login_terms_prefix": "By continuing, you agree to our",
+  "bet_rate": "Bet Rate",
+  "bet_amount": "Bet Amount",
+  "numbers_selected": "Numbers Selected",
+  "total_stake": "Total Stake",
+  "expected_win": "Expected Win",
+  "quick_bet_hint": "Tip: Tap a chip to set amount quickly",
+  "currency_vnd": "VND",
+  "Select Prize to Bet": "Select Prize to Bet",
+  "number_stats": "Number Statistics",
+  "top_numbers": "Top Frequent Numbers",
+  "rare_numbers": "Numbers Not Drawn For Long",
+  "bottomtab_bet": "Bet",
+  "bottomtab_result": "Result",
+  "bottomtab_analysis": "Analysis",
+  "bottomtab_account": "Account"
 }

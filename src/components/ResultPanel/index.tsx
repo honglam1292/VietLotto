@@ -2,6 +2,8 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { LottoContext } from "@/context/LottoContext";
 import { Button, Menu, MenuItem } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import TitleImage from "./title.svg";
+import dayjs from "dayjs";
 
 type Results = {
   "G.8": string[];  // 2 số
@@ -103,10 +105,12 @@ export default function ResultPanel() {
 
   const countryTitle = ctx.selectCountry.split(' ').map(t => t[0])
   const channelTitle = ctx.channel.split(' ').map(t => t[0])
-  console.log('countryTitle', countryTitle)
+
+  const yesterday = dayjs().subtract(1, "day").locale("vi");
+  const formattedDate = yesterday.format("DD/MM/YYYY");
   return (
-    <div>
-      <div className="flex gap-1 mb-4 md:!mb-8 justify-center text-base whitespace-nowrap">
+    <div className="bg-white rounded-2xl border border-gray-200 p-2 pb-10 md:!pb-2 shadow-sm text-center">
+      {/* <div className="flex gap-1 mb-4 md:!mb-8 justify-center text-base whitespace-nowrap">
         {t("XS")}{t(countryTitle.join(''))}
         <div>›</div>
         <div className="text-black">
@@ -152,59 +156,68 @@ export default function ResultPanel() {
         </div>
         <div>›</div>
         {t("XS")}{t(channelTitle.join(''))} {getYesterday()}
-      </div>
-      <div className="inline-block border border-gray-300 rounded-sm overflow-hidden text-black">
-        <table className="table-fixed">
-          <colgroup>
-            <col className="w-[70px]" />
-            <col className="w-[160px]" />
-          </colgroup>
+      </div> */}
+      <div className="w-full flex justify-center mt-2 px-4 mb-4"><img src={TitleImage} alt={`Title Image`} className="w-full" /></div>
+      <div className="text-2xl font-semibold">{t("Lottery results")}:</div>
+      <div className="text-2xl font-semibold mb-2">{ctx.channel}</div>
+      <div className="px-2">
+        <div className="mb-4 inline-block w-full rounded-xl bg-[#F5F1E9] px-8 py-2 text-center text-xl font-semibold text-gray-800">
+          {t("Date")} {formattedDate}
+        </div>
+        <div className="inline-block border border-gray-300 rounded-xl overflow-hidden text-black w-full">
+          <table className="table-fixed w-full">
+            <colgroup>
+              <col className="w-[30%]" />
+              <col className="w-[70%]" />
+            </colgroup>
 
-          <thead>
-            <tr>
-              <th className="bg-gray-100 text-center px-3 py-2 border-b border-r border-gray-300">{t("Giải")}</th>
-              <th className="bg-gray-100 text-blue-600 underline px-3 py-2 border-b border-gray-300 text-center">
-                {t(ctx.channel)}
-              </th>
-            </tr>
-          </thead>
+            {/* <thead>
+              <tr>
+                <th className="bg-[#fafafa] text-center px-3 py-2 border-b border-r border-gray-300">{t("Giải")}</th>
+                <th className="bg-[#fafafa] text-blue-600 underline px-3 py-2 border-b border-gray-300 text-center">
+                  {t(ctx.channel)}
+                </th>
+              </tr>
+            </thead> */}
 
-          <tbody>
-            {ORDER.map((key, idx) => {
-              const arr = mockRs[key] ?? [];
-              const isRed = key === (isMB ? "G.7" : "G.8") || key === "G.ĐB";
-              const cell = (
-                <div className="space-y-0">
-                  {arr.map((v, i) => (
-                    <div
-                      key={i}
-                      className={`mb-[0.25px] text-[22px] leading-10 tracking-wide font-extrabold ${isRed ? "text-red-600" : "text-black"}`}
-                      style={{ fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial" }}
-                    >
-                      {v.padStart(v.length, "0")}
-                    </div>
-                  ))}
-                  {arr.length === 0 && <div className="h-[22px]" />}
-                </div>
-              );
+            <tbody>
+              {ORDER.map((key, idx) => {
+                const arr = mockRs[key] ?? [];
+                const isRed = key === (isMB ? "G.7" : "G.8") || key === "G.ĐB";
+                const cell = (
+                  <div className="space-y-0">
+                    {arr.map((v, i) => (
+                      <div
+                        key={i}
+                        className={`mb-[0.25px] text-[22px] border-b border-gray-200 leading-10 tracking-wide font-extrabold ${isRed ? "text-red-600" : "text-black"}`}
+                        style={{ fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial" }}
+                      >
+                        {v.padStart(v.length, "0")}
+                      </div>
+                    ))}
+                    {arr.length === 0 && <div className="h-[22px]" />}
+                  </div>
+                );
 
-              // hàng ngăn giữa các block như ảnh
-              const needSeparator = key === "G.4" || key === "G.3";
-              return (
-                <tr key={key} className={idx % 2 ? "bg-white" : "bg-[#f9fbff]"}>
-                  <td className="align-middle px-3 leading-10 py-0 border-t border-r border-gray-200">
-                    <span className="text-gray-700 font-semibold">{t(key)}</span>
-                  </td>
-                  <td className="px-3 py-0 border-t leading-10 border-gray-200">{cell}</td>
-                  {needSeparator && (
-                    // hàng phân cách (tạo row riêng ngay sau)
-                    <></>
-                  )}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                // hàng ngăn giữa các block như ảnh
+                const needSeparator = key === "G.4" || key === "G.3";
+                return (
+                  // <tr key={key} className={idx % 2 ? "bg-white" : "bg-[#f9fbff]"}>
+                  <tr key={key} className={"#fafafa"}>
+                    <td className="align-middle px-3 leading-10 py-0 border-t border-r border-gray-200">
+                      <span className="text-gray-700 font-semibold">{t(key)}</span>
+                    </td>
+                    <td className="p-0 border-t leading-10 border-gray-200">{cell}</td>
+                    {needSeparator && (
+                      // hàng phân cách (tạo row riêng ngay sau)
+                      <></>
+                    )}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

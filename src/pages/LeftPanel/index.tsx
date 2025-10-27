@@ -2,17 +2,18 @@ import BetModeSelector from "@/components/BetModeSelector";
 import Countdown from "@/components/Coutdown";
 import FolkGame from "@/components/FolkGame";
 import { LottoContext } from "@/context/LottoContext";
-import { Box, Button, Checkbox, Menu, MenuItem, Modal } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, Menu, MenuItem, Modal, Select } from "@mui/material";
 import { useContext, useEffect, useRef, useState } from "react";
 import { getLotteryToday } from "../Header/mock";
 import { useTranslation } from "react-i18next";
+import NumberStats from "@/components/NumberStats";
 
 type DigitValue = number | undefined;
 
 const woodStyle =
-  "cursor-pointer w-40 md:!w-52 gap-8 rounded-xl px-3 md:!px-5 py-3 text-base md:!text-2xl font-extrabold text-black shadow " +
-  "bg-[linear-gradient(180deg,#b9814a_0%,#ba8a56_45%,#a86d38_100%)] " +
-  "border border-[#7a4f2a] text-center";
+  "cursor-pointer w-full gap-8 rounded-[50px] px-3 md:!px-5 py-3 text-base md:!text-2xl font-extrabold text-[#2a5381] shadow " +
+  "bg-white " +
+  "border border-[#2a5381] text-center";
 
 const style = {
   position: "absolute" as const,
@@ -121,11 +122,11 @@ const LeftPanel = () => {
 
   const value = getLotteryToday();
   const listCity = value.find((v) => v.text?.includes(ctx.channel))?.text || [];
-
+  const shadow = 'shadow-[0_1px_2px_rgba(0,0,0,0.06),0_-1px_2px_rgba(0,0,0,0.06),1px_0_2px_rgba(0,0,0,0.06),-1px_0_2px_rgba(0,0,0,0.06)]'
   return (
     <div>
-      <div className="p-2 md:!p-4 rounded-lg bg-slate-200">
-        <div className="flex justify-around items-center">
+      <div className={`p-2 md:!p-4 rounded-lg bg-white ${shadow}`}>
+        {/* <div className="flex justify-around items-center">
           <button
             id="city-button"
             type="button"
@@ -195,14 +196,33 @@ const LeftPanel = () => {
               <MenuItem onClick={() => ctx.setDigit(4)}> {t("Last")} 4 {t("digits")}</MenuItem>
             </Menu>
           </div>
+        </div> */}
+        <div className="flex justify-around items-center">
+          <FormControl fullWidth>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={ctx.digit}
+              onChange={(e) => ctx.setDigit(Number(e.target.value))}
+              sx={{
+                backgroundColor: '#fafafa', // xám nhạt
+                borderRadius: 1,
+              }}
+            >
+              <MenuItem value={2} onClick={() => ctx.setDigit(2)}> {t("Last")} 2 {t("digits")}</MenuItem>
+              <MenuItem value={3} onClick={() => ctx.setDigit(3)}> {t("Last")} 3 {t("digits")}</MenuItem>
+              <MenuItem value={4} onClick={() => ctx.setDigit(4)}> {t("Last")} 4 {t("digits")}</MenuItem>
+            </Select>
+          </FormControl>
         </div>
 
-        <div className="flex justify-between mt-4 md:mt-6">
-          <div className="font-bold flex-1 flex justify-center items-center">
-            {t("Key")} {ctx.digit} {t("digits")} :
-          </div>
 
-          <div className="flex-1 flex justify-around">
+        <div className="flex justify-around mt-4 md:mt-6">
+          {/* <div className="font-bold flex-1 flex justify-center items-center">
+            {t("Key")} {ctx.digit} {t("digits")} :
+          </div> */}
+
+          {/* <div className="flex-1 flex justify-around">
             {Array.from({ length: ctx.digit }).map((_, i) => (
               <input
                 key={i}
@@ -218,20 +238,38 @@ const LeftPanel = () => {
                  border border-[#1a2b49] bg-gray-300 focus:outline-none"
               />
             ))}
-          </div>
+          </div> */}
+          {Array.from({ length: ctx.digit }).map((_, i) => (
+            <input
+              key={i}
+              ref={(el) => (inputRefs.current[i] = el)}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength={1}
+              value={digits[i] !== undefined ? String(digits[i]) : ""}
+              onChange={(e) => onChangeDigit(i, e.target.value)}
+              onKeyDown={(e) => onKeyDown(i, e)}
+              className="size-8 md:!size-20 text-center font-bold text-2xl rounded-lg 
+                 border border-[#d5e3f0] bg-[#efefef] focus:outline-none"
+            />
+          ))}
+        </div>
+        <div className="text-center mt-8 bg-[#2a5381] rounded-[50px] text-2xl font-semibold py-4 text-white">
+          {t("Lucky Numbers")}
         </div>
       </div>
 
-      <div className="p-2 md:!p-4 rounded-lg bg-slate-200 mt-6 md:mt-12">
+      <div className={`p-2 md:!p-4 rounded-lg bg-white ${shadow} mt-6 md:mt-12`}>
         <div className="">
-          <Countdown />
+          <NumberStats />
         </div>
       </div>
 
-      <div className="p-2 md:!p-6 rounded-lg bg-slate-200 mt-6 md:mt-12">
+      <div className={`p-2 md:!p-6 rounded-lg bg-none mt-6 md:mt-4`}>
         <div className="">
-          <BetModeSelector />
-          <div className="flex gap-8 justify-center items-center w-full mt-4">
+          <BetModeSelector woodStyle={woodStyle}/>
+          <div className="flex gap-8 justify-center items-center w-full mt-3">
             <span className={woodStyle} onClick={onClickOpenFolkGame}>
               {t("Folk Game")}
             </span>
@@ -247,7 +285,7 @@ const LeftPanel = () => {
                 </div>
               </Box>
             </Modal>
-            <Checkbox
+            {/* <Checkbox
               sx={{
                 transform:
                   typeof window !== "undefined" && window.innerWidth > 768
@@ -259,7 +297,7 @@ const LeftPanel = () => {
                 },
                 visibility: "hidden",
               }}
-            />
+            /> */}
           </div>
         </div>
       </div>

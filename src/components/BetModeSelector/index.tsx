@@ -3,12 +3,7 @@ import { Checkbox } from "@mui/material";
 import { LottoContext } from "@/context/LottoContext";
 import { useTranslation } from "react-i18next";
 
-const woodStyle =
-  "w-40 md:!w-52 gap-8 rounded-xl px-3 md:!px-5 py-3 text-base md:!text-2xl font-extrabold text-black shadow " +
-  "bg-[linear-gradient(180deg,#b9814a_0%,#ba8a56_45%,#a86d38_100%)] " +
-  "border border-[#7a4f2a] text-center whitespace-nowrap";
-
-export default function BetModeSelector() {
+export default function BetModeSelector({ woodStyle }: { woodStyle: string }) {
   const ctx = useContext(LottoContext);
   const { t } = useTranslation();
 
@@ -26,14 +21,14 @@ export default function BetModeSelector() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {options.map((opt) => (
         <div
           key={opt.value}
           className="flex gap-8 justify-center items-center w-full"
         >
           <span className={woodStyle}>{opt.label}</span>
-          <Checkbox
+          {/* <Checkbox
             checked={ctx.drawValue === opt.value}
             onChange={() => toggle(opt.value)}
             sx={{
@@ -43,7 +38,7 @@ export default function BetModeSelector() {
                 color: "#1a2b49",
               },
             }}
-          />
+          /> */}
         </div>
       ))}
     </div>
